@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_winappdriverexcelcheck" default="compile.module.winappdriverexcelcheck">
+  <dirname property="module.winappdriverexcelcheck.basedir" file="${ant.file.module_winappdriverexcelcheck}"/>
+  
+  <property name="module.jdk.home.winappdriverexcelcheck" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.winappdriverexcelcheck" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.winappdriverexcelcheck" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.winappdriverexcelcheck" value="-encoding UTF-8 -source 7 -target 1.7 ${compiler.args}"/>
+  
+  <property name="winappdriverexcelcheck.output.dir" value="${module.winappdriverexcelcheck.basedir}/target/classes"/>
+  <property name="winappdriverexcelcheck.testoutput.dir" value="${module.winappdriverexcelcheck.basedir}/target/test-classes"/>
+  
+  <path id="winappdriverexcelcheck.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="winappdriverexcelcheck.module.production.classpath">
+    <path refid="${module.jdk.classpath.winappdriverexcelcheck}"/>
+  </path>
+  
+  <path id="winappdriverexcelcheck.runtime.production.module.classpath">
+    <pathelement location="${winappdriverexcelcheck.output.dir}"/>
+  </path>
+  
+  <path id="winappdriverexcelcheck.module.classpath">
+    <path refid="${module.jdk.classpath.winappdriverexcelcheck}"/>
+    <pathelement location="${winappdriverexcelcheck.output.dir}"/>
+  </path>
+  
+  <path id="winappdriverexcelcheck.runtime.module.classpath">
+    <pathelement location="${winappdriverexcelcheck.testoutput.dir}"/>
+    <pathelement location="${winappdriverexcelcheck.output.dir}"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.winappdriverexcelcheck">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.winappdriverexcelcheck">
+    <patternset refid="excluded.from.module.winappdriverexcelcheck"/>
+  </patternset>
+  
+  <path id="winappdriverexcelcheck.module.sourcepath">
+    <dirset dir="${module.winappdriverexcelcheck.basedir}">
+      <include name="src/main/java"/>
+    </dirset>
+  </path>
+  
+  <path id="winappdriverexcelcheck.module.test.sourcepath">
+    <dirset dir="${module.winappdriverexcelcheck.basedir}">
+      <include name="src/test/java"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.winappdriverexcelcheck" depends="compile.module.winappdriverexcelcheck.production,compile.module.winappdriverexcelcheck.tests" description="Compile module WinAppDriverExcelCheck"/>
+  
+  <target name="compile.module.winappdriverexcelcheck.production" depends="register.custom.compilers" description="Compile module WinAppDriverExcelCheck; production classes">
+    <mkdir dir="${winappdriverexcelcheck.output.dir}"/>
+    <javac2 destdir="${winappdriverexcelcheck.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.winappdriverexcelcheck}/javac">
+      <compilerarg line="${compiler.args.winappdriverexcelcheck}"/>
+      <bootclasspath refid="winappdriverexcelcheck.module.bootclasspath"/>
+      <classpath refid="winappdriverexcelcheck.module.production.classpath"/>
+      <src refid="winappdriverexcelcheck.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.winappdriverexcelcheck"/>
+    </javac2>
+    
+    <copy todir="${winappdriverexcelcheck.output.dir}">
+      <fileset dir="${module.winappdriverexcelcheck.basedir}/src/main/java">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.winappdriverexcelcheck.tests" depends="register.custom.compilers,compile.module.winappdriverexcelcheck.production" description="compile module WinAppDriverExcelCheck; test classes" unless="skip.tests">
+    <mkdir dir="${winappdriverexcelcheck.testoutput.dir}"/>
+    <javac2 destdir="${winappdriverexcelcheck.testoutput.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.winappdriverexcelcheck}/javac">
+      <compilerarg line="${compiler.args.winappdriverexcelcheck}"/>
+      <bootclasspath refid="winappdriverexcelcheck.module.bootclasspath"/>
+      <classpath refid="winappdriverexcelcheck.module.classpath"/>
+      <src refid="winappdriverexcelcheck.module.test.sourcepath"/>
+      <patternset refid="excluded.from.compilation.winappdriverexcelcheck"/>
+    </javac2>
+    
+    <copy todir="${winappdriverexcelcheck.testoutput.dir}">
+      <fileset dir="${module.winappdriverexcelcheck.basedir}/src/test/java">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="clean.module.winappdriverexcelcheck" description="cleanup module">
+    <delete dir="${winappdriverexcelcheck.output.dir}"/>
+    <delete dir="${winappdriverexcelcheck.testoutput.dir}"/>
+  </target>
+</project>
